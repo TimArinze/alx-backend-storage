@@ -9,7 +9,7 @@ from typing import Union
 
 class Cache:
     """Writing strings to Redis"""
-    def __init__(self) -> None:
+    def __init__(self):
         """Constructor method"""
         self._redis = redis.Redis()
         self._redis.flushdb()
