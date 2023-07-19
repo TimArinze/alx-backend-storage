@@ -8,18 +8,14 @@ from typing import Union
 
 
 class Cache:
-    """ Cache class
-    """
+    """Writing strings to Redis"""
     def __init__(self):
-        """ Constructor method
-        """
+        """Constructor method"""
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """ Method that takes a data argument and returns a string
-        """
-        key = str(uuid.uuid4())
-        self._redis.set(key, data)
-        return key
-
+        """Method that takes a data argument and returns a string"""
+        random_key = str(uuid.uuid4())
+        self._redis.set(random_key, data)
+        return random_key
