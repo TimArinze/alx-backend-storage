@@ -23,23 +23,3 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: callable = None)\
-            -> Union[str, bytes, int, float]:
-        """ Method that takes a key string argument and an optional
-            Callable argument named fn and returns a value
-        """
-        if fn:
-            return fn(self._redis.get(key))
-        return self._redis.get(key)
-
-    def get_str(self, key: str) -> str:
-        """ Method that will automatically parametrize Cache.get
-            with the correct conversion function
-        """
-        return self.get(key, str)
-
-    def get_int(self, key: str) -> int:
-        """ Method that will automatically parametrize Cache.get
-            with the correct conversion function
-        """
-        return self.get(key, int)
