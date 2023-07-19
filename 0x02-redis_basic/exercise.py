@@ -13,6 +13,7 @@ class Cache:
         """Constructor method"""
         self._redis = redis.Redis()
         self._redis.flushdb()
+
     def store(self, data: Union[float, str, int, bytes]) -> str:
         """Method that takes a data argument and returns a string"""
         random_key = str(uuid.uuid4())
