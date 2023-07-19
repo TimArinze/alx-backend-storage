@@ -7,7 +7,7 @@ import uuid
 from typing import Union
 
 
-class Cache:
+class Cache(object):
     """Writing strings to Redis"""
     def __init__(self):
         """Constructor method"""
