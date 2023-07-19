@@ -9,11 +9,11 @@ from typing import Union
 
 class Cache:
     """Writing strings to Redis"""
-    def __init__(self) -> None:
+    def __init__(self: 'Cache') -> None:
         """Constructor method"""
         self._redis = redis.Redis()
         self.flush = self._redis.flushdb()
-    def store(self, data: Union[float, str, int, bytes]) -> str:
+    def store(self: 'Cache', data: Union[float, str, int, bytes]) -> str:
         """Method that takes a data argument and returns a string"""
         random_key = str(uuid.uuid4())
         self._redis.set(random_key, data)
