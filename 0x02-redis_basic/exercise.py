@@ -7,6 +7,25 @@ import uuid
 from typing import Union, Callable
 from functools import wraps
 
+def call_history(method: Callable) -> Callable:
+    """
+    decorator to store the history of inputs and outputs 
+    for a particular function.
+    Everytime the original function will be called,
+    we will add its input parameters to one list in redis,
+    and store its output into another list
+    """
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwds):
+        """the wrapper"""
+        output = method(self, *args, **kwds)
+        self._redis.rpush("{}:input".format(key), str(args))
+        self._redis.rpush("{}: output".format(key), output)
+        return output
+    return wrapper
+
 
 def count_calls(method: Callable) -> Callable:
     """Decorator that takes a single method Callable argument and returns
