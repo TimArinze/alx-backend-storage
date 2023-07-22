@@ -51,6 +51,7 @@ def replay(method: Callable):
         output = o.decode("utf-8")
         print("{}(*({})) -> {}".format(key, input, output))
 
+
 class Cache:
     """Writing strings to Redis"""
     def __init__(self):
