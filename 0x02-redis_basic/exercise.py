@@ -38,6 +38,19 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable):
+    """function to display the history of calls of a particular function"""
+    key = method.__qualname__
+    r = redis.Redis()
+    inputs = r.lrange("{}:inputs".format(key), 0, -1)
+    outputs = r.lrange("{}:outputs".format(key), 0, -1)
+
+    print("{} was called {} times:".format(key, r.get(key).decode("utf-8")))
+    for i, o in zip(inputs, outputs):
+        input = i.decode("utf-8")
+        output = o.decode("utf-8")
+        print("{}(*({})) -> {}".format(key, input, output))
+
 class Cache:
     """Writing strings to Redis"""
     def __init__(self):
@@ -45,7 +58,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    # @count_calls
+    @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Method that takes a data argument and returns a string"""
